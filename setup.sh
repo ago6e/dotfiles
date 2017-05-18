@@ -1,5 +1,5 @@
 #!/bin/bash
-PRIVATE_KEY_FILE=${1:-${HOME}/ssh/id_rsa}
+IDENTITY_FILE=${1}
 
 for package in bash curl sudo tar; do
   if ! type ${package} > /dev/null 2>&1; then
@@ -36,6 +36,6 @@ package_manager \
   -yum install -y git
 
 git config --global core.autoCRLF false
-GIT_SSH_COMMAND="ssh -i \"${PRIVATE_KEY_FILE}\" -o IdentitiesOnly=yes" git clone git@bitbucket.org:ago6e/dotfiles.git ~/.dotfiles
+GIT_SSH_COMMAND="ssh ${IDENTITY_FILE:+ -i \"${IDENTITY_FILE}\"} -o IdentitiesOnly=yes" git clone git@bitbucket.org:ago6e/dotfiles.git ~/.dotfiles
 ~/.dotfiles/setup.sh
 
